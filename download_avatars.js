@@ -1,14 +1,14 @@
 var request = require('request');
+var fs = require('fs');
 var secrets = require('./secrets');
 var token = secrets['GITHUB_TOKEN'];
-var fs = require('fs');
 
 function getRepoContributors(repoOwner, repoName, cb) {
   
     var options = {
         url: "https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contributors",
         headers: {
-          'User-Agent': 'request',
+          'User-Agent': 'fei-gao',
           'Authorization': token
         }
       };
@@ -18,7 +18,7 @@ function getRepoContributors(repoOwner, repoName, cb) {
         var obj = JSON.parse(body);
         cb(err, obj);
       });
-  }
+}
   
 function downloadImageByURL(url, filePath){
     request.get(url)
@@ -26,21 +26,21 @@ function downloadImageByURL(url, filePath){
         throw err;
     })
 
-    .pipe(fs.createWriteStream(filePath))
-
-    .on('finish', function(){
-        console.log('write successfully!')
-    });
-
+    .pipe(fs.createWriteStream(filePath));
 }
 
-//   getRepoContributors("jquery", "jquery", function(err, result) {
-//     console.log("Errors:", err);
-//     // console.log("Result:", result);
-//     var keys = Object.keys(result);
-//     for(var i = 0; i < keys.length; i++){
-//         console.log(result[keys[i]]['avatar_url']);
-//     }
-//   });
-
-downloadImageByURL("https://avatars2.githubusercontent.com/u/2741?v=3&s=466", "./avatars/kvirani.jpg")
+//cb loops through each item in the array:
+//It constructs a file path using the login value (e.g., "avatars/dhh.jpg")
+//It then passes the avatar_url value and the file path to downloadImageByURL
+getRepoContributors("jquery", "jquery", function(err, result) {
+    console.log("Errors:", err);
+    // console.log("Result:", result);
+    var keys = Object.keys(result);
+    for(var i = 0; i < keys.length; i++){
+        var url = result[keys[i]]['avatar_url'];
+        var name = result[keys[i]]['login'];
+        var filePath = `avatars/${name}.jpg`.toString();
+        
+        downloadImageByURL(url, filePath);
+    }
+});
