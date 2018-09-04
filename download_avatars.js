@@ -20,6 +20,10 @@ function getRepoContributors(cb) {
 
     //body is JSON string
     request(options, function(err, res, body) {
+      //handle error
+      if(err){
+        console.log('error:', error, res.statusCode);
+      }
       var obj = JSON.parse(body);
       cb(err, obj);
     });
@@ -32,7 +36,7 @@ function getRepoContributors(cb) {
 function downloadImageByURL(url, filePath){
   request.get(url)
     .on('error', function(err){
-      throw err;
+      console.log(err);
     })
 
     .pipe(fs.createWriteStream(filePath));
