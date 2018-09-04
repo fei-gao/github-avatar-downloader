@@ -19,5 +19,9 @@
   "homepage": "https://github.com/fei-gao/github-avatar-downloader#readme",
   "dependencies": {
     "request": "^2.88.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.5.0",
+    "eslint-config-lighthouselabs": "github:lighthouse-labs/eslint-config-lighthouselabs"
   }
 }
