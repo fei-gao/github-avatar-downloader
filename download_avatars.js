@@ -14,7 +14,7 @@ function getRepoContributors(cb) {
       url: "https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contributors",
       headers: {
         'User-Agent': 'fei-gao',
-        'Authorization': token
+        'Authorization': "token " + token
       }
     };
 
